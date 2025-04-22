@@ -17,8 +17,8 @@ def read_root():
          response_model=List[AutorPublic])  #El endpoint es GET /autors/ y devuelve una lista de 'AutorPublic'
 
 
-def list_autors(session: Session = Depends(get_session)):  # 'session' es la conexión a la base de datos.
-    # Realizamos una consulta a la base de datos para obtener todos los autores.
+def list_autors(session: Session = Depends(get_session)):  #'session' es la conexión a la base de datos.
+    #Realizamos una consulta a la base de datos para obtener todos los autores.
     autors = session.exec(select(Autor)).all()  #'select(Autor)' obtiene todos los registros de la tabla 'Autor'.
     return autors  #Devolvemos la lista de autores.
 
@@ -51,7 +51,7 @@ def list_articles(session: Session = Depends(get_session)):  # 'session' es la c
     return articles  #Devolvemos la lista de artículos.
 
 
-# Ruta para obtener un artículo por su ID
+#Ruta para obtener un artículo por su ID
 @app.get("/articles/{article_id}", response_model=ArticlePublic)  #El endpoint es GET /articles/{article_id}
 def get_article(article_id: int, session: Session = Depends(get_session)):  #Recibimos el 'article_id' como parámetro.
     article = session.get(Article, article_id)  #'session.get' busca el artículo por su 'id'.
@@ -64,7 +64,7 @@ def get_article(article_id: int, session: Session = Depends(get_session)):  #Rec
 @app.post("/articles/", response_model=ArticlePublic)  #El endpoint es POST /articles/ para crear un nuevo artículo.
 def create_article(article: ArticleCreate, session: Session = Depends(
     get_session)):  #Recibimos los datos del artículo a través de 'ArticleCreate'.
-    db_article = Article(title=article.title, content=article.content, autor_id=article.autor_id)  # Creamos un nuevo artículo.
+    db_article = Article(title=article.title, content=article.content, autor_id=article.autor_id)  #Creamos un nuevo artículo.
     session.add(db_article)  #Añadimos el nuevo artículo a la sesión de base de datos.
     session.commit()  #Guardamos los cambios en la base de datos.
     session.refresh(db_article)  #Refrescamos el objeto para obtener los datos guardados, como el 'id'.
@@ -73,10 +73,10 @@ def create_article(article: ArticleCreate, session: Session = Depends(
 
 #Ruta para eliminar un autor
 @app.delete("/autors/{autor_id}", response_model=AutorPublic)  #El endpoint es DELETE /autors/{autor_id}
-def delete_autor(autor_id: int, session: Session = Depends(get_session)):  # Recibimos el 'autor_id' como parámetro.
+def delete_autor(autor_id: int, session: Session = Depends(get_session)):  #Recibimos el 'autor_id' como parámetro.
     autor = session.get(Autor, autor_id)  #Buscamos al autor por su ID.
     if not autor:  #Si no encontramos el autor, lanzamos un error.
-        raise HTTPException(status_code=404, detail="Autor no encontrado")  # Error 404 si no se encuentra.
+        raise HTTPException(status_code=404, detail="Autor no encontrado")  #Error 404 si no se encuentra.
 
     session.delete(autor)  #Eliminamos el autor de la base de datos.
     session.commit()  #Guardamos los cambios en la base de datos.
