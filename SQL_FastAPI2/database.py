@@ -4,7 +4,7 @@ from fastapi import FastAPI
 
 #Establecemos la URL de la base de datos (en este caso, SQLite)
 sqlite_url = "sqlite:///db/mydatabase.db"  #Ruta de la base de datos
-engine = create_engine(sqlite_url, echo=True)  # echo=True para ver los logs SQL generados
+engine = create_engine(sqlite_url, echo=True)  #echo=True para ver los logs SQL generados
 
 #Función para crear las tablas de la base de datos
 def create_db_and_tables():
